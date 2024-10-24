@@ -23,10 +23,7 @@ const randomNumberArrayGenerator = () => {
   }
   return randomArray;
 };
-const SimonNumbers = randomNumberArrayGenerator();
 const printArray = () => {
-  // creo array di numeri casuali
-
   // per ogni slot, inserisco nel testo html il numero casuale corrispondente
   slotArray.forEach((currentSlot, index) => {
     currentSlot.innerHTML = `<span>${SimonNumbers[index]}</span>`;
@@ -35,13 +32,13 @@ const printArray = () => {
 const printInputs = () => {
   slotArray.forEach((currentSlot, index) => {
     currentSlot.innerHTML = `<input
-                  type="number"
-                  class="form-control"
-                  id="number-input${index}"
-                  min="0"
-                  max="99"
-                  required
-                />`;
+        type="number"
+        class="form-control"
+        id="number-input${index}"
+        min="0"
+        max="99"
+        required
+        />`;
     submitButtonEl.classList.remove("d-none");
   });
 };
@@ -57,6 +54,8 @@ const countdownHandler = () => {
     clearInterval(countdownInterval);
   }
 };
+// creo array di numeri casuali
+const SimonNumbers = randomNumberArrayGenerator();
 // Recupero i nodi che mi servono
 let slot1 = document.getElementById("slot-1");
 let slot2 = document.getElementById("slot-2");
@@ -73,6 +72,33 @@ printArray();
 // Inizializzo countdown
 let countdown = 2;
 
+const getInputValues = () => {
+  input1 = document.getElementById("number-input0");
+  input2 = document.getElementById("number-input1");
+  input3 = document.getElementById("number-input2");
+  input4 = document.getElementById("number-input3");
+  input5 = document.getElementById("number-input4");
+
+  inputArray = [
+    input1.value,
+    input2.value,
+    input3.value,
+    input4.value,
+    input5.value,
+  ];
+  return inputArray;
+};
+const checkGuesses = (arrayToCheck, whitelist) => {
+  //   let counter = 0;
+  const guessedNumbers = [];
+  arrayToCheck.forEach((currentSlot) => {
+    const currentInputNumber = parseInt(currentSlot);
+    if (whitelist.includes(currentInputNumber)) {
+      guessedNumbers.push(currentInputNumber);
+    }
+  });
+  return guessedNumbers;
+};
 // Parte un timer di 30 secondi
 // Allo scadere del timer sostituisco i numeri con degli input numerici
 const countdownInterval = setInterval(countdownHandler, 1000);
@@ -80,26 +106,13 @@ const countdownInterval = setInterval(countdownHandler, 1000);
 // All'invio del form controllo ad uno ad uno se i numeri inseriti sono contenuti nell'arrray dei numeri casuali
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  const inputArray = getInputValues();
+  const guessed = checkGuesses(inputArray, SimonNumbers);
 
-  input1 = document.getElementById("number-input0");
-  input2 = document.getElementById("number-input1");
-  input3 = document.getElementById("number-input2");
-  input4 = document.getElementById("number-input3");
-  input5 = document.getElementById("number-input4");
-
-  const inputArray = [input1, input2, input3, input4, input5];
-
-  let counter = 0;
-  const guessedNumbers = [];
-  inputArray.forEach((currentSlot) => {
-    const currentInputNumber = parseInt(currentSlot.value);
-
-    if (SimonNumbers.includes(currentInputNumber)) {
-      guessedNumbers.push(currentInputNumber);
-      counter++;
-      console.log(counter, guessedNumbers);
-    }
-  });
+  console.log("inputArray", inputArray);
+  console.log("SimonNumbers", SimonNumbers);
+  console.log("guessed", guessed);
+  console.log("guessed.length", guessed.length);
 });
 
 // SE il numero è presente, aggiorno il contatore e salvo il numero nell'array di numeri indovinati
