@@ -24,7 +24,20 @@ const randomNumberArray = () => {
   return randomArray;
 };
 
+// Recupero i nodi che mi servono
+const slot1 = document.getElementById("slot-1");
+const slot2 = document.getElementById("slot-2");
+const slot3 = document.getElementById("slot-3");
+const slot4 = document.getElementById("slot-4");
+const slot5 = document.getElementById("slot-5");
+
+const slotArray = [slot1, slot2, slot3, slot4, slot5];
+
 const SimonNumbers = randomNumberArray();
+
+slotArray.forEach((currentSlot, index) => {
+  currentSlot.innerText = SimonNumbers[index];
+});
 
 // Parte un timer di 30 secondi
 // Allo scadere del timer sostituisco i numeri con degli input numerici
