@@ -23,9 +23,9 @@ const randomNumberArrayGenerator = () => {
   }
   return randomArray;
 };
+const SimonNumbers = randomNumberArrayGenerator();
 const printArray = () => {
   // creo array di numeri casuali
-  const SimonNumbers = randomNumberArrayGenerator();
 
   // per ogni slot, inserisco nel testo html il numero casuale corrispondente
   slotArray.forEach((currentSlot, index) => {
@@ -58,16 +58,16 @@ const countdownHandler = () => {
   }
 };
 // Recupero i nodi che mi servono
-const slot1 = document.getElementById("slot-1");
-const slot2 = document.getElementById("slot-2");
-const slot3 = document.getElementById("slot-3");
-const slot4 = document.getElementById("slot-4");
-const slot5 = document.getElementById("slot-5");
+let slot1 = document.getElementById("slot-1");
+let slot2 = document.getElementById("slot-2");
+let slot3 = document.getElementById("slot-3");
+let slot4 = document.getElementById("slot-4");
+let slot5 = document.getElementById("slot-5");
 const submitButtonEl = document.getElementById("submit-button");
 const inputForm = document.getElementById("input-form");
 
 // creo array di nodi
-const slotArray = [slot1, slot2, slot3, slot4, slot5];
+let slotArray = [slot1, slot2, slot3, slot4, slot5];
 
 printArray();
 // Inizializzo countdown
@@ -80,6 +80,26 @@ const countdownInterval = setInterval(countdownHandler, 1000);
 // All'invio del form controllo ad uno ad uno se i numeri inseriti sono contenuti nell'arrray dei numeri casuali
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  input1 = document.getElementById("number-input0");
+  input2 = document.getElementById("number-input1");
+  input3 = document.getElementById("number-input2");
+  input4 = document.getElementById("number-input3");
+  input5 = document.getElementById("number-input4");
+
+  const inputArray = [input1, input2, input3, input4, input5];
+
+  let counter = 0;
+  const guessedNumbers = [];
+  inputArray.forEach((currentSlot) => {
+    const currentInputNumber = parseInt(currentSlot.value);
+
+    if (SimonNumbers.includes(currentInputNumber)) {
+      guessedNumbers.push(currentInputNumber);
+      counter++;
+      console.log(counter, guessedNumbers);
+    }
+  });
 });
 
 // SE il numero è presente, aggiorno il contatore e salvo il numero nell'array di numeri indovinati
