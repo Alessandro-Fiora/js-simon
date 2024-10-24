@@ -79,40 +79,46 @@ const getInputValues = () => {
   input4 = document.getElementById("number-input3");
   input5 = document.getElementById("number-input4");
 
-  inputArray = [
-    input1.value,
-    input2.value,
-    input3.value,
-    input4.value,
-    input5.value,
-  ];
+  inputArray = [input1, input2, input3, input4, input5];
   return inputArray;
 };
 const checkGuesses = (arrayToCheck, whitelist) => {
   //   let counter = 0;
   const guessedNumbers = [];
   arrayToCheck.forEach((currentSlot) => {
-    const currentInputNumber = parseInt(currentSlot);
+    const currentInputNumber = parseInt(currentSlot.value);
     if (whitelist.includes(currentInputNumber)) {
       guessedNumbers.push(currentInputNumber);
-    }
+      currentSlot.classList.add("is-valid");
+    } else currentSlot.classList.add("is-invalid");
   });
   return guessedNumbers;
 };
 // Parte un timer di 30 secondi
 // Allo scadere del timer sostituisco i numeri con degli input numerici
 const countdownInterval = setInterval(countdownHandler, 1000);
-
 // All'invio del form controllo ad uno ad uno se i numeri inseriti sono contenuti nell'arrray dei numeri casuali
 inputForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const inputArray = getInputValues();
-  const guessed = checkGuesses(inputArray, SimonNumbers);
+  const checkGuessHandler = () => {
+    const inputArray = getInputValues();
+    const guessed = checkGuesses(inputArray, SimonNumbers);
 
-  console.log("inputArray", inputArray);
-  console.log("SimonNumbers", SimonNumbers);
-  console.log("guessed", guessed);
-  console.log("guessed.length", guessed.length);
+    outputTextEl = document.getElementById("output-text");
+    outputTextEl.innerText = `Hai indovinato ${guessed.length} numeri! (${guessed})`;
+  };
+  const clearAll = () => {
+    inputArray.forEach((currentEl) => {
+      currentEl.value = "";
+      currentEl.classList.remove("is-valid", "is-invalid");
+      outputTextEl.innerText = "";
+    });
+  };
+  checkGuessHandler();
+  const resetInterval = setInterval(() => {
+    clearAll();
+    clearInterval(resetInterval);
+  }, 5000);
 });
 
 // SE il numero è presente, aggiorno il contatore e salvo il numero nell'array di numeri indovinati
