@@ -15,6 +15,10 @@
 // Immaginate la logica come fosse uno snack: "Dati 2 array di numeri, indica quali e quanti numeri ci sono in comune tra i due array"
 
 // Al caricamento della pagina genero 5 numeri casuali (da 1 a 99), li salvo in un array e li stampo in pagina
+alert(
+  'Simon Says!\nHai 30 secondi per memorizzare 5 numeri\nInseriscili nei campi e schiaccia "Conferma" per vedere quanti ne hai indovinati.\nSe non sei soddisfatto del risultato puoi sempre riprovare!'
+);
+
 const randomNumberArrayGenerator = () => {
   const randomArray = [];
   for (let i = 0; i < 5; i++) {
@@ -39,7 +43,7 @@ const printInputs = () => {
         max="99"
         required
         />`;
-    submitButtonEl.classList.remove("d-none");
+    buttonsEl.classList.remove("d-none");
   });
 };
 const countdownHandler = () => {
@@ -62,8 +66,9 @@ let slot2 = document.getElementById("slot-2");
 let slot3 = document.getElementById("slot-3");
 let slot4 = document.getElementById("slot-4");
 let slot5 = document.getElementById("slot-5");
-const submitButtonEl = document.getElementById("submit-button");
+const buttonsEl = document.getElementById("buttons");
 const inputForm = document.getElementById("input-form");
+const retryButton = document.getElementById("retry-button");
 
 // creo array di nodi
 let slotArray = [slot1, slot2, slot3, slot4, slot5];
@@ -87,8 +92,10 @@ const checkGuesses = (arrayToCheck, whitelist) => {
   const guessedNumbers = [];
   arrayToCheck.forEach((currentSlot) => {
     const currentInputNumber = parseInt(currentSlot.value);
+    // SE il numero è presente, salvo il numero nell'array di numeri indovinati
     if (whitelist.includes(currentInputNumber)) {
       guessedNumbers.push(currentInputNumber);
+      // Aggiungo anche una classe per far capire se è stato indovinato
       currentSlot.classList.add("is-valid");
     } else currentSlot.classList.add("is-invalid");
   });
@@ -105,21 +112,13 @@ inputForm.addEventListener("submit", (e) => {
     const guessed = checkGuesses(inputArray, SimonNumbers);
 
     outputTextEl = document.getElementById("output-text");
-    outputTextEl.innerText = `Hai indovinato ${guessed.length} numeri! (${guessed})`;
-  };
-  const clearAll = () => {
-    inputArray.forEach((currentEl) => {
-      currentEl.value = "";
-      currentEl.classList.remove("is-valid", "is-invalid");
-      outputTextEl.innerText = "";
-    });
+    outputTextEl.innerText = `Ne hai indovinati ${guessed.length} : ${guessed}
+    Riprova!`;
   };
   checkGuessHandler();
-  const resetInterval = setInterval(() => {
-    clearAll();
-    clearInterval(resetInterval);
-  }, 5000);
+});
+retryButton.addEventListener("click", () => {
+  location.reload();
 });
 
-// SE il numero è presente, aggiorno il contatore e salvo il numero nell'array di numeri indovinati
 // Stampo il risultato in pagina
