@@ -141,7 +141,7 @@ const slotArray = getSlotElements();
 printArray(SimonNumbers, slotArray);
 
 // * Inizializzo un timer di 30 secondi (1 secondo prima che venga eseguito l'intervallo e 29 intervalli)
-let countdown = 1;
+let countdown = 29;
 
 // * Stampo il countdown in pagina e allo scadere del timer sostituisco i numeri con degli input
 const countdownInterval = setInterval(countdownHandler, 1000);
