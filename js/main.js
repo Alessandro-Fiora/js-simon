@@ -15,15 +15,14 @@
 // Immaginate la logica come fosse uno snack: "Dati 2 array di numeri, indica quali e quanti numeri ci sono in comune tra i due array"
 
 // Al caricamento della pagina genero 5 numeri casuali (da 1 a 99), li salvo in un array e li stampo in pagina
-const generateRandomNumber = () => Math.floor(Math.random() * 100);
-const randomNumberArray = () => {
+const randomNumberArrayGenerator = () => {
   const randomArray = [];
   for (let i = 0; i < 5; i++) {
-    randomArray.push(generateRandomNumber());
+    const randomNumber = Math.floor(Math.random() * 100);
+    randomArray.push(randomNumber);
   }
   return randomArray;
 };
-
 // Recupero i nodi che mi servono
 const slot1 = document.getElementById("slot-1");
 const slot2 = document.getElementById("slot-2");
@@ -31,15 +30,51 @@ const slot3 = document.getElementById("slot-3");
 const slot4 = document.getElementById("slot-4");
 const slot5 = document.getElementById("slot-5");
 
+// creo array di nodi
 const slotArray = [slot1, slot2, slot3, slot4, slot5];
 
-const SimonNumbers = randomNumberArray();
+const printArray = () => {
+  // creo array di numeri casuali
+  const SimonNumbers = randomNumberArrayGenerator();
 
-slotArray.forEach((currentSlot, index) => {
-  currentSlot.innerText = SimonNumbers[index];
-});
+  // per ogni slot, inserisco nel testo html il numero casuale corrispondente
+  slotArray.forEach((currentSlot, index) => {
+    currentSlot.innerHTML = `<span>${SimonNumbers[index]}</span>`;
+  });
+};
+
+// printArray();
+// Recupero nodo dove piazzare il countdown
+
+const countdownEl = document.getElementById("remaining-time");
+// Inizializzo countdown
+let countdown = 3;
 
 // Parte un timer di 30 secondi
+const countdownInterval = setInterval(() => {
+  if (countdown > 0) {
+    countdownEl.innerText = countdown;
+    countdown--;
+  } else {
+    countdownEl.innerText = 0;
+    printInputs();
+    clearInterval(countdownInterval);
+  }
+}, 1000);
+
+const printInputs = () => {
+  slotArray.forEach((currentSlot, index) => {
+    currentSlot.innerHTML = `<input
+                  type="number"
+                  class="form-control"
+                  id="number-input${index}"
+                  min="0"
+                  max="99"
+                  required
+                />`;
+  });
+};
+
 // Allo scadere del timer sostituisco i numeri con degli input numerici
 // All'invio del form controllo ad uno ad uno se i numeri inseriti sono contenuti nell'arrray dei numeri casuali
 // SE il numero è presente, aggiorno il contatore e salvo il numero nell'array di numeri indovinati
