@@ -13,3 +13,21 @@
 // Dividete in piccoli problemi la consegna.
 // Individuate gli elementi di cui avete bisogno per realizzare il programma.
 // Immaginate la logica come fosse uno snack: "Dati 2 array di numeri, indica quali e quanti numeri ci sono in comune tra i due array"
+
+// Al caricamento della pagina genero 5 numeri casuali (da 1 a 99), li salvo in un array e li stampo in pagina
+const generateRandomNumber = () => Math.floor(Math.random() * 100);
+const randomNumberArray = () => {
+  const randomArray = [];
+  for (let i = 0; i < 5; i++) {
+    randomArray.push(generateRandomNumber());
+  }
+  return randomArray;
+};
+
+const SimonNumbers = randomNumberArray();
+
+// Parte un timer di 30 secondi
+// Allo scadere del timer sostituisco i numeri con degli input numerici
+// All'invio del form controllo ad uno ad uno se i numeri inseriti sono contenuti nell'arrray dei numeri casuali
+// SE il numero è presente, aggiorno il contatore e salvo il numero nell'array di numeri indovinati
+// Stampo il risultato in pagina
