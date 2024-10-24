@@ -28,14 +28,21 @@
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
   </head>
+  <!-- Elemento con background colorato -->
   <body class="text-bg-dark">
+    <!-- Container che allinea anche al centro verticalmente -->
     <div
       class="container d-flex justify-content-center align-items-center h-100"
     >
+      <!-- Card con il contenuto -->
       <div class="card px-3 py-5 w-100 h-50 text-center">
+        <!-- Titolo -->
         <h1 class="card-title">Simon Says</h1>
+        <!-- Conto alla rovescia -->
         <h2 id="remaining-time" class="h3 card-subtitle my-3">30</h2>
+        <!-- Corpo della card -->
         <div class="card-body">
+          <!-- Sezione che all'inizio farà solo vedere i numeri e poi permetterà all'utente di inserirli -->
           <form id="input-form" class="row row-cols-5 g-3">
             <div class="col d-flex justify-content-center align-items-center">
               <div class="w-50" id="slot-1"></div>
@@ -52,6 +59,7 @@
             <div class="col d-flex justify-content-center align-items-center">
               <div class="w-50" id="slot-5"></div>
             </div>
+            <!-- Sezione con i bottoni conferma e riprova -->
             <div id="buttons" class="d-none col-12 buttons mt-4 mb-3">
               <button id="submit-button" class="btn btn-primary mx-1">
                 Conferma
@@ -65,6 +73,7 @@
               </button>
             </div>
           </form>
+          <!-- Paragrafo dove verrà stampato l'output dei numeri indovinati -->
           <p id="output-text"></p>
         </div>
       </div>
