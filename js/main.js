@@ -8,10 +8,10 @@ alert(
  * Generates an array of 5 random numbers between 1 and 99
  * @returns {Array} the array of random numbers
  */
-const randomNumberArrayGenerator = () => {
+const randomNumberArrayGenerator = (min, max, tot) => {
   const randomArray = [];
-  for (let i = 0; i < 5; i++) {
-    const randomNumber = Math.floor(Math.random() * 100);
+  for (let i = 1; i <= tot; i++) {
+    const randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
     randomArray.push(randomNumber);
   }
   return randomArray;
@@ -24,7 +24,8 @@ const randomNumberArrayGenerator = () => {
 const printArray = (arrayToPrint, arrayOfNodesToPrintInto) => {
   // per ogni slot, inserisco nel testo html il numero casuale corrispondente
   arrayOfNodesToPrintInto.forEach((currentSlot, index) => {
-    currentSlot.innerHTML = `<span>${arrayToPrint[index]}</span>`;
+    const currentRandomNumber = arrayToPrint[index];
+    currentSlot.innerHTML = `<span>${currentRandomNumber}</span>`;
   });
 };
 /**
@@ -92,8 +93,7 @@ const getInputValues = () => {
   input4 = document.getElementById("number-input3");
   input5 = document.getElementById("number-input4");
 
-  inputArray = [input1, input2, input3, input4, input5];
-  return inputArray;
+  return [input1, input2, input3, input4, input5];
 };
 /**
  * Checks if each element of an array is included in another array, it returns an array of the elements that are included
@@ -106,15 +106,15 @@ const checkGuesses = (arrayToCheck, whitelist) => {
   const guessedNumbers = [];
   arrayToCheck.forEach((currentSlot) => {
     const currentInputNumber = parseInt(currentSlot.value);
-
-    if (!guessedNumbers.includes(currentInputNumber)) {
-      // SE il numero è presente, salvo il numero nell'array di numeri indovinati
-      if (whitelist.includes(currentInputNumber)) {
-        guessedNumbers.push(currentInputNumber);
-        // Aggiungo anche una classe per far capire se è stato indovinato
-        currentSlot.classList.add("is-valid");
-      } else currentSlot.classList.add("is-invalid");
-    }
+    // SE il numero è presente, salvo il numero nell'array di numeri indovinati
+    if (
+      whitelist.includes(currentInputNumber) &&
+      !guessedNumbers.includes(currentInputNumber)
+    ) {
+      guessedNumbers.push(currentInputNumber);
+      // Aggiungo anche una classe per far capire se è stato indovinato
+      currentSlot.classList.add("is-valid");
+    } else currentSlot.classList.add("is-invalid");
   });
   return guessedNumbers;
 };
@@ -133,12 +133,11 @@ const checkGuessHandler = () => {
   Riprova!`;
 };
 // ! ------------------------------------   -----------------
-
-// * Al caricamento della pagina genero 5 numeri casuali (da 1 a 99) e li salvo in un array
-const SimonNumbers = randomNumberArrayGenerator();
-
 // * Creo array di nodi dove stampare i numeri dell'array e in seguito gli inputs
 const slotArray = getSlotElements();
+
+// * Al caricamento della pagina genero 5 numeri casuali (da 1 a 99) e li salvo in un array
+const SimonNumbers = randomNumberArrayGenerator(1, 99, slotArray.length);
 
 // * Stampo i numeri generati
 printArray(SimonNumbers, slotArray);
