@@ -106,12 +106,15 @@ const checkGuesses = (arrayToCheck, whitelist) => {
   const guessedNumbers = [];
   arrayToCheck.forEach((currentSlot) => {
     const currentInputNumber = parseInt(currentSlot.value);
-    // SE il numero è presente, salvo il numero nell'array di numeri indovinati
-    if (whitelist.includes(currentInputNumber)) {
-      guessedNumbers.push(currentInputNumber);
-      // Aggiungo anche una classe per far capire se è stato indovinato
-      currentSlot.classList.add("is-valid");
-    } else currentSlot.classList.add("is-invalid");
+
+    if (!guessedNumbers.includes(currentInputNumber)) {
+      // SE il numero è presente, salvo il numero nell'array di numeri indovinati
+      if (whitelist.includes(currentInputNumber)) {
+        guessedNumbers.push(currentInputNumber);
+        // Aggiungo anche una classe per far capire se è stato indovinato
+        currentSlot.classList.add("is-valid");
+      } else currentSlot.classList.add("is-invalid");
+    }
   });
   return guessedNumbers;
 };
